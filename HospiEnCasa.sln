@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospiEnCasa", "HospiEnCasa\HospiEnCasa.csproj", "{1B65BFC4-9742-43BE-BAEE-B1A5C6AD970B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio", "Dominio\Dominio.csproj", "{06FA55A8-4B17-44AA-8A7E-1212ABEBA758}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dominio", "Dominio\Dominio.csproj", "{06FA55A8-4B17-44AA-8A7E-1212ABEBA758}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistencia", "Servicio\Persistencia.csproj", "{8267C64A-AB7A-4A9E-A678-E92B269D011A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistencia", "Servicio\Persistencia.csproj", "{8267C64A-AB7A-4A9E-A678-E92B269D011A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

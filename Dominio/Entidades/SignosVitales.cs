@@ -2,7 +2,6 @@
 {
     public class SignosVitales
     {
-        public int Id { get; set; }
         public string Oximetria { get; set; }
         public string FrecuenciaRespitario { get; set; }
         public string FrecuenciaCardiaca { get; set; }
