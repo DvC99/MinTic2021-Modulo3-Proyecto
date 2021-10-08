@@ -22,6 +22,8 @@ namespace Persistencia.DataBase
         public string Genero { get; set; }
         public string Telefono { get; set; }
         public string Cargo { get; set; }
+        public string Email { get; set; }
+        public string Contra { get; set; }
 
         public virtual ICollection<Enfermera> Enfermeras { get; set; }
         public virtual ICollection<Medico> Medicos { get; set; }

@@ -8,7 +8,9 @@ CREATE TABLE Administrador (
 	Edad int not null,
 	Genero varchar(50) not null,
 	Telefono varChar(50) not null,
-	Cargo varChar(50) not null
+	Cargo varChar(50) not null,
+	Email varChar(50) not null,
+	Contra varChar not null
 );
 
 CREATE TABLE Familiar (

@@ -18,12 +18,22 @@ namespace HospiEnCasa.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Home()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Paciente()
+        {
+            return View();
+        }
+
+        public IActionResult Medico()
+        {
+            return View();
+        }
+
+        public IActionResult Enfermera()
         {
             return View();
         }
