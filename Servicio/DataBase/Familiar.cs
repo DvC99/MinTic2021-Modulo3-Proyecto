@@ -5,24 +5,22 @@ using System.Collections.Generic;
 
 namespace Persistencia.DataBase
 {
-    public partial class Enfermera
+    public partial class Familiar
     {
-        public Enfermera()
+        public Familiar()
         {
-            HistoriaClinicas = new HashSet<HistoriaClinica>();
+            Pacientes = new HashSet<Paciente>();
         }
 
         public int Id { get; set; }
         public string Cedula { get; set; }
-        public int IdAdministrador { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public int Edad { get; set; }
         public string Genero { get; set; }
         public string Telefono { get; set; }
-        public string Especialidad { get; set; }
+        public string Parentesco { get; set; }
 
-        public virtual Administrador IdAdministradorNavigation { get; set; }
-        public virtual ICollection<HistoriaClinica> HistoriaClinicas { get; set; }
+        public virtual ICollection<Paciente> Pacientes { get; set; }
     }
 }

@@ -9,7 +9,8 @@ namespace Dominio
     public class Person
     {
         //Scaffold-DbContext "Server=DANIELVALENCIA\MSSQLSERVER01;Database=MinTic2021;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir DataBase
-        //Scaffold-DbContext "Server=DANIELVALENCIA\MSSQLSERVER01;Database=MinTic2021;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir DataBase -t table-name -force -verbose
+        //Scaffold-DbContext "Server=DANIELVALENCIA\MSSQLSERVER01;Database=MinTic2021;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir DataBase -force 
+        //Scaffold-DbContext "Server=DANIELVALENCIA\MSSQLSERVER01;Database=MinTic2021;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir DataBase -force
         public int Id { get; set; }
         public string Nombre { get; set; }        
         public string Apellido { get; set; }

@@ -7,17 +7,23 @@ namespace Persistencia.DataBase
 {
     public partial class Paciente
     {
+        public Paciente()
+        {
+            HistoriaClinicas = new HashSet<HistoriaClinica>();
+        }
+
         public int Id { get; set; }
         public string Cedula { get; set; }
-        public string Pasaporte { get; set; }
-        public int IdAsignacion { get; set; }
-        public int IdHistoriaclinica { get; set; }
         public int IdAdministrador { get; set; }
-        public string Nombre1 { get; set; }
-        public string Nombre2 { get; set; }
-        public string Apellido1 { get; set; }
-        public string Apellido2 { get; set; }
+        public int IdFamiliar { get; set; }
+        public string Nombre { get; set; }
+        public string Apellido { get; set; }
         public int Edad { get; set; }
-        public string Eps { get; set; }
+        public string Genero { get; set; }
+        public string Telefono { get; set; }
+
+        public virtual Administrador IdAdministradorNavigation { get; set; }
+        public virtual Familiar IdFamiliarNavigation { get; set; }
+        public virtual ICollection<HistoriaClinica> HistoriaClinicas { get; set; }
     }
 }

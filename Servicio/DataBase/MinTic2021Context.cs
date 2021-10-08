@@ -20,7 +20,8 @@ namespace Persistencia.DataBase
         public virtual DbSet<Administrador> Administradors { get; set; }
         public virtual DbSet<Asignacion> Asignacions { get; set; }
         public virtual DbSet<Enfermera> Enfermeras { get; set; }
-        public virtual DbSet<Hisotiaclinica> Hisotiaclinicas { get; set; }
+        public virtual DbSet<Familiar> Familiars { get; set; }
+        public virtual DbSet<HistoriaClinica> HistoriaClinicas { get; set; }
         public virtual DbSet<Medico> Medicos { get; set; }
         public virtual DbSet<Paciente> Pacientes { get; set; }
 
@@ -38,259 +39,327 @@ namespace Persistencia.DataBase
 
             modelBuilder.Entity<Administrador>(entity =>
             {
-                entity.ToTable("administrador");
+                entity.ToTable("Administrador");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.HasIndex(e => e.Cedula, "UQ__Administ__B4ADFE38D7BF1802")
+                    .IsUnique();
 
-                entity.Property(e => e.IdAsignacion).HasColumnName("id_asignacion");
+                entity.Property(e => e.Apellido)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.IdPaciente).HasColumnName("id_paciente");
+                entity.Property(e => e.Cargo)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Cedula)
+                    .IsRequired()
+                    .HasMaxLength(1)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Genero)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Telefono)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Asignacion>(entity =>
             {
-                entity.ToTable("asignacion");
+                entity.HasNoKey();
 
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Duracion)
-                    .HasColumnType("date")
-                    .HasColumnName("duracion");
+                entity.ToTable("Asignacion");
 
                 entity.Property(e => e.Fechafinal)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("fechafinal");
 
                 entity.Property(e => e.Fechainicio)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("fechainicio");
 
-                entity.Property(e => e.IdEnfermera).HasColumnName("id_enfermera");
+                entity.Property(e => e.IdEnfermera).HasColumnName("Id_enfermera");
 
-                entity.Property(e => e.IdMedico).HasColumnName("id_medico");
+                entity.Property(e => e.IdHistoriaClinica).HasColumnName("Id_historiaClinica");
 
-                entity.Property(e => e.IdPaciente).HasColumnName("id_paciente");
+                entity.Property(e => e.IdMedico).HasColumnName("Id_medico");
+
+                entity.Property(e => e.IdPaciente).HasColumnName("Id_paciente");
+
+                entity.HasOne(d => d.IdEnfermeraNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdEnfermera)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Asignacion_Enfermera");
+
+                entity.HasOne(d => d.IdHistoriaClinicaNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdHistoriaClinica)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Asignacion_HistoriaClinica");
+
+                entity.HasOne(d => d.IdMedicoNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdMedico)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Asignacion_Medico");
+
+                entity.HasOne(d => d.IdPacienteNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdPaciente)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Asignacion_Paciente");
             });
 
             modelBuilder.Entity<Enfermera>(entity =>
             {
-                entity.HasKey(e => new { e.Id, e.Cedula })
-                    .HasName("PK__enfermer__66065F81ACE6D76E");
+                entity.ToTable("Enfermera");
 
-                entity.ToTable("enfermera");
+                entity.HasIndex(e => e.Cedula, "UQ__Enfermer__B4ADFE38FA797F15")
+                    .IsUnique();
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("id");
+                entity.Property(e => e.Apellido)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Cedula)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("cedula");
-
-                entity.Property(e => e.Apellido1)
                     .IsRequired()
                     .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("apellido1")
-                    .IsFixedLength(true);
-
-                entity.Property(e => e.Apellido2)
-                    .IsRequired()
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("apellido2")
-                    .IsFixedLength(true);
-
-                entity.Property(e => e.Cargo)
-                    .IsRequired()
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("cargo")
-                    .IsFixedLength(true);
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Especialidad)
                     .IsRequired()
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("especialidad")
-                    .IsFixedLength(true);
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.Nombre1)
+                entity.Property(e => e.Genero)
                     .IsRequired()
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("nombre1")
-                    .IsFixedLength(true);
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.Nombre2)
-                    .IsRequired()
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("nombre2")
-                    .IsFixedLength(true);
+                entity.Property(e => e.IdAdministrador).HasColumnName("Id_administrador");
 
-                entity.Property(e => e.Pasaporte)
+                entity.Property(e => e.Nombre)
                     .IsRequired()
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("pasaporte");
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Telefono)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.IdAdministradorNavigation)
+                    .WithMany(p => p.Enfermeras)
+                    .HasForeignKey(d => d.IdAdministrador)
+                    .HasConstraintName("FK_Enfermera_Administrador");
             });
 
-            modelBuilder.Entity<Hisotiaclinica>(entity =>
+            modelBuilder.Entity<Familiar>(entity =>
             {
-                entity.ToTable("hisotiaclinica");
+                entity.ToTable("Familiar");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.HasIndex(e => e.Cedula, "UQ__Familiar__B4ADFE38CF7E68CC")
+                    .IsUnique();
+
+                entity.Property(e => e.Apellido)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Cedula)
+                    .IsRequired()
+                    .HasMaxLength(1)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Genero)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Parentesco)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Telefono)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<HistoriaClinica>(entity =>
+            {
+                entity.ToTable("HistoriaClinica");
 
                 entity.Property(e => e.Comentarios)
                     .IsRequired()
-                    .HasColumnType("text")
-                    .HasColumnName("comentarios");
+                    .HasColumnType("text");
 
-                entity.Property(e => e.Fechavisita)
-                    .HasColumnType("date")
-                    .HasColumnName("fechavisita");
+                entity.Property(e => e.Fechavisita).HasColumnType("datetime");
 
-                entity.Property(e => e.IdEnfermera).HasColumnName("id_enfermera");
+                entity.Property(e => e.FrecuenciaCardiaca)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.IdMedico).HasColumnName("id_medico");
+                entity.Property(e => e.FrecuenciaRespitario)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.IdPaciente).HasColumnName("id_paciente");
+                entity.Property(e => e.Glicemia)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IdEnfermera).HasColumnName("Id_enfermera");
+
+                entity.Property(e => e.IdMedico).HasColumnName("Id_medico");
+
+                entity.Property(e => e.IdPaciente).HasColumnName("Id_paciente");
+
+                entity.Property(e => e.Oximetria)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PrecionArterial)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Temperatura)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.IdEnfermeraNavigation)
+                    .WithMany(p => p.HistoriaClinicas)
+                    .HasForeignKey(d => d.IdEnfermera)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_HistoriaClinica_Enfermera");
+
+                entity.HasOne(d => d.IdMedicoNavigation)
+                    .WithMany(p => p.HistoriaClinicas)
+                    .HasForeignKey(d => d.IdMedico)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_HistoriaClinica_Medico");
+
+                entity.HasOne(d => d.IdPacienteNavigation)
+                    .WithMany(p => p.HistoriaClinicas)
+                    .HasForeignKey(d => d.IdPaciente)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_HistoriaClinica_Paciente");
             });
 
             modelBuilder.Entity<Medico>(entity =>
             {
-                entity.HasKey(e => new { e.Id, e.Cedula, e.Pasaporte })
-                    .HasName("PK__medico__C917860847A67911");
+                entity.ToTable("Medico");
 
-                entity.ToTable("medico");
+                entity.HasIndex(e => e.Cedula, "UQ__Medico__B4ADFE389BAC70F3")
+                    .IsUnique();
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("id");
+                entity.Property(e => e.Apellido)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Cedula)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("cedula");
-
-                entity.Property(e => e.Pasaporte)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("pasaporte");
-
-                entity.Property(e => e.Apellido1)
                     .IsRequired()
                     .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("apellido1")
-                    .IsFixedLength(true);
-
-                entity.Property(e => e.Apellido2)
-                    .IsRequired()
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("apellido2")
-                    .IsFixedLength(true);
-
-                entity.Property(e => e.Cargo)
-                    .IsRequired()
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("cargo")
-                    .IsFixedLength(true);
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Especialidad)
                     .IsRequired()
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("especialidad")
-                    .IsFixedLength(true);
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.Nombre1)
+                entity.Property(e => e.Genero)
                     .IsRequired()
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("nombre1")
-                    .IsFixedLength(true);
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.Nombre2)
+                entity.Property(e => e.IdAdministrador).HasColumnName("Id_administrador");
+
+                entity.Property(e => e.Nombre)
                     .IsRequired()
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("nombre2")
-                    .IsFixedLength(true);
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Telefono)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.IdAdministradorNavigation)
+                    .WithMany(p => p.Medicos)
+                    .HasForeignKey(d => d.IdAdministrador)
+                    .HasConstraintName("FK_Medico_Administrador");
             });
 
             modelBuilder.Entity<Paciente>(entity =>
             {
-                entity.HasKey(e => new { e.Id, e.Cedula, e.Pasaporte })
-                    .HasName("PK__paciente__C91786086564F879");
+                entity.ToTable("Paciente");
 
-                entity.ToTable("paciente");
-
-                entity.HasIndex(e => e.Pasaporte, "UQ__paciente__11D989AF95774AAC")
+                entity.HasIndex(e => e.Cedula, "UQ__Paciente__B4ADFE380C232762")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Cedula, "UQ__paciente__415B7BE5081BFC32")
-                    .IsUnique();
-
-                entity.Property(e => e.Id)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("id");
+                entity.Property(e => e.Apellido)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Cedula)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("cedula");
-
-                entity.Property(e => e.Pasaporte)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("pasaporte");
-
-                entity.Property(e => e.Apellido1)
                     .IsRequired()
                     .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("apellido1")
-                    .IsFixedLength(true);
+                    .IsUnicode(false);
 
-                entity.Property(e => e.Apellido2)
+                entity.Property(e => e.Genero)
                     .IsRequired()
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("apellido2")
-                    .IsFixedLength(true);
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.Edad).HasColumnName("edad");
+                entity.Property(e => e.IdAdministrador).HasColumnName("Id_administrador");
 
-                entity.Property(e => e.Eps)
+                entity.Property(e => e.IdFamiliar).HasColumnName("Id_familiar");
+
+                entity.Property(e => e.Nombre)
                     .IsRequired()
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("eps");
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.IdAdministrador).HasColumnName("id_administrador");
-
-                entity.Property(e => e.IdAsignacion).HasColumnName("id_asignacion");
-
-                entity.Property(e => e.IdHistoriaclinica).HasColumnName("id_historiaclinica");
-
-                entity.Property(e => e.Nombre1)
+                entity.Property(e => e.Telefono)
                     .IsRequired()
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("nombre1")
-                    .IsFixedLength(true);
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.Nombre2)
-                    .IsRequired()
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("nombre2")
-                    .IsFixedLength(true);
+                entity.HasOne(d => d.IdAdministradorNavigation)
+                    .WithMany(p => p.Pacientes)
+                    .HasForeignKey(d => d.IdAdministrador)
+                    .HasConstraintName("FK_Paciente_Administrador");
+
+                entity.HasOne(d => d.IdFamiliarNavigation)
+                    .WithMany(p => p.Pacientes)
+                    .HasForeignKey(d => d.IdFamiliar)
+                    .HasConstraintName("FK_Paciente_Familiar");
             });
 
             OnModelCreatingPartial(modelBuilder);
