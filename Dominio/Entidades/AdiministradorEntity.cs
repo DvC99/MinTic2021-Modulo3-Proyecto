@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.Entidades
 {
-    class Adiministrador : Person
+    public class AdiministradorEntity : Person
     {
         public string Cargo { get; set; }
 
