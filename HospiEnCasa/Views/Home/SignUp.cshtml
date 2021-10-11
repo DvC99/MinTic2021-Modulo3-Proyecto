@@ -1,0 +1,56 @@
+﻿@model Dominio.Entidades.AdiministradorEntity;
+@{
+    ViewData["Title"] = "Registrarse";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="login_body">
+    <form asp-controller="Home" asp-action="SignupCreate" class="form-signin align-items-center">
+        <h1 class="h3 mb-3 font-weight-normal">Por favor, ingres los datos</h1>
+        <div class="form-group">
+            <label asp-for="Nombre" class="control-label sr-only">Nombre completo</label>
+            <input type="text" asp-for="Nombre" class="form-control" placeholder="Nombres" autofocus="" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Apellido" class="control-label sr-only">Apellidos</label>
+            <input type="text" asp-for="Apellido" class="form-control" placeholder="Apellidos" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Cedula" class="sr-only">Cedula</label>
+            <input type="text" asp-for="Cedula" class="form-control" placeholder="Cedula" />
+        </div>
+        <div class="form-group">
+            <label asp-for="NumeroTelefono" class="sr-only">Telefono</label>
+            <input type="text" asp-for="NumeroTelefono" class="form-control" placeholder="Telefono" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Mail" class="sr-only">Email address</label>
+            <input type="email" asp-for="Mail" class="form-control" placeholder="Correo" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Password" class="sr-only">Password</label>
+            <input type="password" asp-for="Password" class="form-control" placeholder="Contraseña" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Edad" class="sr-only">Edad</label>
+            <input type="text" asp-for="Edad" class="form-control" placeholder="Edad" />
+        </div>
+        <div class="form-group">
+            <label for="inputGenero" class="sr-only">Genero</label>
+            @Html.DropDownList("Genero", (IEnumerable<SelectListItem>)ViewBag.ListCompanyDocumentType, htmlAttributes: new { @class = "form-control", @type = "text", @id = "inputCargo" })
+
+        </div>
+        <div class="form-group">
+            <label asp-for="Cargo" class="sr-only">Cargo</label>
+            <input type="text" asp-for="Cargo" class="form-control" placeholder="Cargo" />
+        </div>
+        <div class="form-group">
+            <button class="btn btn-secondary btn-lg btn-block" type="submit" value="" asp-action="SignupCreate">Sign Up</button>
+            <button class="btn btn-light btn-outline-secondary btn-lg btn-block" type="submit" value="" asp-controller="Home" asp-action="Login">Volver</button>
+        </div>
+    </form>
+</div>
+

@@ -41,7 +41,7 @@ namespace Persistencia.DataBase
             {
                 entity.ToTable("Administrador");
 
-                entity.HasIndex(e => e.Cedula, "UQ__Administ__B4ADFE38A6D38C04")
+                entity.HasIndex(e => e.Cedula, "UQ__Administ__B4ADFE38FCD558AC")
                     .IsUnique();
 
                 entity.Property(e => e.Apellido)
@@ -56,12 +56,12 @@ namespace Persistencia.DataBase
 
                 entity.Property(e => e.Cedula)
                     .IsRequired()
-                    .HasMaxLength(1)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Contra)
                     .IsRequired()
-                    .HasMaxLength(1)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Email)
@@ -136,7 +136,7 @@ namespace Persistencia.DataBase
             {
                 entity.ToTable("Enfermera");
 
-                entity.HasIndex(e => e.Cedula, "UQ__Enfermer__B4ADFE383B1B353D")
+                entity.HasIndex(e => e.Cedula, "UQ__Enfermer__B4ADFE38E79BC2A1")
                     .IsUnique();
 
                 entity.Property(e => e.Apellido)
@@ -146,7 +146,7 @@ namespace Persistencia.DataBase
 
                 entity.Property(e => e.Cedula)
                     .IsRequired()
-                    .HasMaxLength(1)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Especialidad)
@@ -181,7 +181,7 @@ namespace Persistencia.DataBase
             {
                 entity.ToTable("Familiar");
 
-                entity.HasIndex(e => e.Cedula, "UQ__Familiar__B4ADFE38B56D5F93")
+                entity.HasIndex(e => e.Cedula, "UQ__Familiar__B4ADFE38F36E0E99")
                     .IsUnique();
 
                 entity.Property(e => e.Apellido)
@@ -191,7 +191,7 @@ namespace Persistencia.DataBase
 
                 entity.Property(e => e.Cedula)
                     .IsRequired()
-                    .HasMaxLength(1)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Genero)
@@ -284,7 +284,7 @@ namespace Persistencia.DataBase
             {
                 entity.ToTable("Medico");
 
-                entity.HasIndex(e => e.Cedula, "UQ__Medico__B4ADFE38C862C6BB")
+                entity.HasIndex(e => e.Cedula, "UQ__Medico__B4ADFE3848704E51")
                     .IsUnique();
 
                 entity.Property(e => e.Apellido)
@@ -294,7 +294,7 @@ namespace Persistencia.DataBase
 
                 entity.Property(e => e.Cedula)
                     .IsRequired()
-                    .HasMaxLength(1)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Especialidad)
@@ -329,7 +329,7 @@ namespace Persistencia.DataBase
             {
                 entity.ToTable("Paciente");
 
-                entity.HasIndex(e => e.Cedula, "UQ__Paciente__B4ADFE38287618E6")
+                entity.HasIndex(e => e.Cedula, "UQ__Paciente__B4ADFE384BA98360")
                     .IsUnique();
 
                 entity.Property(e => e.Apellido)
@@ -339,7 +339,7 @@ namespace Persistencia.DataBase
 
                 entity.Property(e => e.Cedula)
                     .IsRequired()
-                    .HasMaxLength(1)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Genero)

@@ -11,7 +11,8 @@ namespace Dominio.Entidades
     {
         [Required(ErrorMessage = "Identificacion Requerida")]
         public string Correo { get; set; }
+
         [Required(ErrorMessage = "Contraseña Requerida")]
-        public string Passwork { get; set; }
+        public string Password { get; set; }
     }
 }

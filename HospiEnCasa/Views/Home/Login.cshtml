@@ -1,36 +1,37 @@
-﻿@{
-    
+﻿@model Dominio.Entidades.Login
+@{
+    ViewData["Title"] = "Login page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="login_body align-items-center">
-                    <form class="form-signin" data-nordpass-autofill="login" data-np-checked="1" data-nordpass-watching="1">
-                        <img class="mb-4" src="~/Icon.png" alt="logo" width="72" height="72">
-                        <h1 class="h3 mb-3 font-weight-normal">Por favor, iniciar sesión</h1>
 
-                        <label for="inputEmail" class="sr-only">Email address</label>
-                        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+<div class="login_body">
 
-                        <label for="inputPassword" class="sr-only">Password</label>
-                        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
-
-                        <button class="btn btn-light btn-outline-secondary btn-lg btn-block" type="submit">Sign in</button>
-                    </form>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+    @if (!string.IsNullOrEmpty(ViewBag.LoginError))
+    {
+        <div class="alert alert-danger" align="center">
+            <strong>@ViewBag.LoginError</strong>
         </div>
-    </div>    
+    }
+
+    <form asp-controller="Home" asp-action="Home" class="form-signin align-items-center" data-nordpass-autofill="login" data-np-checked="1" data-nordpass-watching="1">
+        <div class="align-items-center" style="text-align:center;">
+            <img class="mb-4" src="~/Icon.png" alt="logo" width="160" height="160">
+            <h1 class="h3 mb-3 font-weight-normal">Por favor, iniciar sesión</h1>
+        </div>
+
+        <label asp-for="Correo" class="sr-only">Email address</label>
+        <input type="email" asp-for="Correo" class="form-control" placeholder="Email address" >
+
+        <label asp-for="Password" class="sr-only">Password</label>
+        <input type="password" asp-for="Password" class="form-control" placeholder="Password" >
+        <div>
+            <button type="submit" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal" asp-controller="Home" asp-action="Signup">Registrarse</button>
+            <button class="btn btn-light btn-outline-secondary btn-lg btn-block" type="submit">Sign in</button>
+        </div>
+    </form>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

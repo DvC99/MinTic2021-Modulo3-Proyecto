@@ -14,23 +14,23 @@ namespace Dominio
         //Scaffold-DbContext "Server=DANIELVALENCIA\MSSQLSERVER01;Database=MinTic2021;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir DataBase -force
         [Required(ErrorMessage = "Identificacion Requerida")]
         [RegularExpression("[0-9]*")]
+        [Key]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Nombre Requerido")]
         public string Nombre { get; set; }
         
-        [Required(ErrorMessage = "Nombre Requerido")]
+        [Required(ErrorMessage = "Apellido Requerido")]
         public string Apellido { get; set; }
         
         public int Edad { get; set; }
         public Genero Genero { get; set; }
         public string Cedula { get; set; }
         public string NumeroTelefono { get; set; }
-        public string Dirreccion { get; set; }
 
         [Required(ErrorMessage = "Contraseña Requerida")]
         [StringLength(100, MinimumLength = 10)]
-        public string Passwork { get; set; }
+        public string Password { get; set; }
 
         [Required(ErrorMessage = "Correo Requerido")]
         [EmailAddress]
