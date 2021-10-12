@@ -55,7 +55,7 @@ namespace HospiEnCasa.Controllers
         }
 
         // Crear los administradores
-        public IActionResult Signup()
+        public IActionResult Signup(AdiministradorEntity admi)
         {
             List<SelectListItem> listGenero = new List<SelectListItem>();
             foreach(int item in Genero.GetValues(typeof(Genero)))
@@ -65,6 +65,17 @@ namespace HospiEnCasa.Controllers
 
             ViewBag.ListCompanyDocumentType = listGenero;
 
+            if (admi.Cedula!=null)
+            {            
+                var responseBase = hospiLogic.CreateAdministrador(admi);
+
+                ViewBag.Message = responseBase.Message;
+                ViewBag.Type = Enum.ToObject(typeof(TypeMessage), (int)responseBase.Type).ToString();
+                if (responseBase.Type.ToString().Equals("success"))
+                {
+                    return View("Home");
+                }
+            }
             return View();
         }
 
@@ -76,6 +87,10 @@ namespace HospiEnCasa.Controllers
 
             ViewBag.Message = responseBase.Message;
             ViewBag.Type = Enum.ToObject(typeof(TypeMessage), (int)responseBase.Type).ToString();
+            if (responseBase.Type.ToString().Equals("success"))
+            {
+                return View("Home");
+            }
             return View();
         }
 

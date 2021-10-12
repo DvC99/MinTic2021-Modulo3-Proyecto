@@ -42,7 +42,7 @@ namespace Persistencia.Logic
                     id = dbcontex.Administradors.Where(x => x.Id == random).FirstOrDefault();
                 }
                 adm.Id = random;
-
+                
                 dbcontex.Administradors.Add(ConvertAdmisnistradorToAdministradorDb(adm));
                 dbcontex.SaveChanges();
                 dbContextTransaction.Commit();
@@ -71,7 +71,7 @@ namespace Persistencia.Logic
            
             Administrador administrador = new()
             {
-                Id =  adm.Id,
+                //Id =  adm.Id,
                 Nombre = adm.Nombre,
                 Apellido = adm.Apellido,
                 Cedula = adm.Cedula,

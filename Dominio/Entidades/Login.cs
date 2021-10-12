@@ -9,10 +9,10 @@ namespace Dominio.Entidades
 {
     public class Login
     {
-        [Required(ErrorMessage = "Identificacion Requerida")]
+       
         public string Correo { get; set; }
 
-        [Required(ErrorMessage = "Contraseña Requerida")]
+        
         public string Password { get; set; }
     }
 }
