@@ -55,6 +55,7 @@ namespace HospiEnCasa.Controllers
         }
 
         // Crear los administradores
+        [HttpPost]
         public IActionResult Signup(AdiministradorEntity admi)
         {
             List<SelectListItem> listGenero = new List<SelectListItem>();
@@ -80,19 +81,19 @@ namespace HospiEnCasa.Controllers
         }
 
 
-        [HttpPost]
-        public IActionResult SignupCreate(AdiministradorEntity admi)
-        {
-            var responseBase = hospiLogic.CreateAdministrador(admi);
+        //[HttpPost]
+        //public IActionResult SignupCreate(AdiministradorEntity admi)
+        //{
+        //    var responseBase = hospiLogic.CreateAdministrador(admi);
 
-            ViewBag.Message = responseBase.Message;
-            ViewBag.Type = Enum.ToObject(typeof(TypeMessage), (int)responseBase.Type).ToString();
-            if (responseBase.Type.ToString().Equals("success"))
-            {
-                return View("Home");
-            }
-            return View();
-        }
+        //    ViewBag.Message = responseBase.Message;
+        //    ViewBag.Type = Enum.ToObject(typeof(TypeMessage), (int)responseBase.Type).ToString();
+        //    if (responseBase.Type.ToString().Equals("success"))
+        //    {
+        //        return View("Home");
+        //    }
+        //    return View();
+        //}
 
         public IActionResult CreateAppointment()
         {
