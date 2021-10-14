@@ -11,16 +11,7 @@ namespace Persistencia.Logic
 {
     public class HospiEnCasaLogic
     {
-       private readonly MinTic2021Context dbcontex = new();
-
-        public bool VefirySession(Login loginEntity)
-        {
-            var client = dbcontex.Administradors.Where(x => x.Email.Equals(loginEntity.Correo)).FirstOrDefault();
-            if (client == null) return false;
-            var admin = dbcontex.Administradors.Where(x => x.Email.Equals(loginEntity.Correo) && x.Contra.Equals(loginEntity.Password)).FirstOrDefault();
-            if (admin == null) return false;
-            return true;
-        }
+        private readonly MinTic2021Context dbcontex = new();
 
         public ResponseBaseEntity CreateAdministrador(AdiministradorEntity adm)
         {
@@ -57,7 +48,6 @@ namespace Persistencia.Logic
             }
         }
 
-
         private static ResponseBaseEntity GetResponseBaseEntity(string message, TypeMessage typeMessage)
         {
             ResponseBaseEntity responseBaseEntity = new();
@@ -86,5 +76,13 @@ namespace Persistencia.Logic
             return administrador;
         }
 
+        public bool VefirySession(Login loginEntity)
+        {
+            var client = dbcontex.Administradors.Where(x => x.Email.Equals(loginEntity.Correo)).FirstOrDefault();
+            if (client == null) return false;
+            var admin = dbcontex.Administradors.Where(x => x.Email.Equals(loginEntity.Correo) && x.Contra.Equals(loginEntity.Password)).FirstOrDefault();
+            if (admin == null) return false;
+            return true;
+        }
     }
 }

@@ -9,10 +9,11 @@ namespace Dominio.Entidades
 {
     public class Login
     {
-       
+        //[EmailAddress]
         public string Correo { get; set; }
 
         
+        //[StringLength(100, MinimumLength = 10)]
         public string Password { get; set; }
     }
 }

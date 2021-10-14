@@ -16,7 +16,7 @@
 
     <form asp-controller="Home" asp-action="Home" class="form-signin align-items-center" data-nordpass-autofill="login" data-np-checked="1" data-nordpass-watching="1">
         <div class="align-items-center" style="text-align:center;">
-            <img class="mb-4" src="~/Icon.png" alt="logo" width="160" height="160">
+            <img class="mb-1" src="~/Icon.png" alt="logo" width="260" height="160">
             <h1 class="h3 mb-3 font-weight-normal">Por favor, iniciar sesión</h1>
         </div>
 
@@ -26,7 +26,7 @@
         <label asp-for="Password" class="sr-only">Password</label>
         <input type="password" asp-for="Password" class="form-control" placeholder="Password" >
         <div>
-            <button class="btn btn-light btn-outline-secondary btn-lg btn-block" type="submit">Sign in</button>
+            <button class="btn btn-light btn-outline-secondary btn-lg btn-block" type="submit">Iniciar Sesion</button>
             <button type="submit" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal" asp-controller="Home" asp-action="Signup">Registrarse</button>
         </div>
     </form>

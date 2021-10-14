@@ -49,7 +49,7 @@ namespace HospiEnCasa.Controllers
             }
             else
             {
-                return RedirectToAction("Login", "Barbershop", routeValues: new { loginError = "El usuario no existe" });
+                return RedirectToAction("Login", "Home", routeValues: new { loginError = "El usuario no existe" });
             }
             return View();
         }
@@ -101,20 +101,6 @@ namespace HospiEnCasa.Controllers
             return View();
         }
 
-        private void VerifySession()
-        {
-            var session = HttpContext.Session.GetString("token");
-
-            if (string.IsNullOrEmpty(session))
-            {
-                HttpContext.Session.Clear();
-                ViewBag.LoginError = "El usuario no esta logeado";
-            }
-        }
-
-
-
-
         public IActionResult Paciente()
         {
             return View();
@@ -131,7 +117,16 @@ namespace HospiEnCasa.Controllers
         }
 
 
+        private void VerifySession()
+        {
+            var session = HttpContext.Session.GetString("token");
 
+            if (string.IsNullOrEmpty(session))
+            {
+                HttpContext.Session.Clear();
+                ViewBag.LoginError = "El usuario no esta logeado";
+            }
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
