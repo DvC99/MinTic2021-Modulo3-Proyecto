@@ -39,13 +39,16 @@ namespace HospiEnCasa.Controllers
         }
 
 
-        [HttpPost]
+        //[HttpPost]
         public IActionResult Home(Login loginEntity)
         {
-            if (hospiLogic.VefirySession(loginEntity))
+            if (VerifySession() != null)
             {
-                HttpContext.Session.SetString("token", loginEntity.Correo);
-                VerifySession();
+                return View();
+                //return RedirectToAction("Login", "Home", routeValues: new { loginError = "Funcion verificar ogual a " + VerifySession() });
+            }else if (hospiLogic.VefirySession(loginEntity))
+            {
+                HttpContext.Session.SetString("token", loginEntity.Correo);                
             }
             else
             {
@@ -103,29 +106,41 @@ namespace HospiEnCasa.Controllers
 
         public IActionResult Paciente()
         {
+            if (VerifySession() == null)
+            {
+                return RedirectToAction("Login", "Home", routeValues: new { loginError = "El usuario no existe" });
+            }
             return View();
         }
 
         public IActionResult Medico()
         {
+            if (VerifySession() == null)
+            {
+                return RedirectToAction("Login", "Home", routeValues: new { loginError = "El usuario no existe" });
+            }
             return View();
         }
 
         public IActionResult Enfermera()
         {
+            if (VerifySession() == null)
+            {
+                return RedirectToAction("Login", "Home", routeValues: new { loginError = "El usuario no existe" });
+            }
             return View();
         }
 
 
-        private void VerifySession()
+        private String VerifySession()
         {
             var session = HttpContext.Session.GetString("token");
-
             if (string.IsNullOrEmpty(session))
             {
                 HttpContext.Session.Clear();
                 ViewBag.LoginError = "El usuario no esta logeado";
-            }
+            }            
+            return session;           
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
