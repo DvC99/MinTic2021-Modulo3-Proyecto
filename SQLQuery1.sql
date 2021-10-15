@@ -1,7 +1,7 @@
 USE MinTic2021;
 
 CREATE TABLE Administrador (
-    Id int PRIMARY KEY IDENTITY (1, 1),
+    Id int PRIMARY KEY,
 	Cedula varChar(50) unique not null,
     Nombre varchar(50) not null,
 	Apellido varchar(50) not null,
@@ -14,7 +14,7 @@ CREATE TABLE Administrador (
 );
 
 CREATE TABLE Familiar (
-	Id int PRIMARY KEY IDENTITY (1, 1),
+	Id int PRIMARY KEY,
 	Cedula varChar(50) unique not null,
     Nombre varchar(50) not null,
 	Apellido varchar(50) not null,
@@ -25,7 +25,7 @@ CREATE TABLE Familiar (
 );
 
 CREATE TABLE Paciente (
-    Id int PRIMARY KEY IDENTITY (1, 1),
+    Id int PRIMARY KEY,
 	Cedula varChar(50) unique not null,
 	Id_administrador int NOT NULL,
 	Id_familiar int NOT NULL,	
@@ -48,7 +48,7 @@ CREATE TABLE Paciente (
 
 
 CREATE TABLE Medico (
-	Id int PRIMARY KEY IDENTITY (1, 1),
+	Id int PRIMARY KEY,
 	Cedula varChar(50) unique not null,
 	Id_administrador int NOT NULL,	
     Nombre varchar(50) not null,
@@ -65,7 +65,7 @@ CREATE TABLE Medico (
 );
 
 CREATE TABLE Enfermera (
-    Id int PRIMARY KEY IDENTITY (1, 1),
+    Id int PRIMARY KEY,
 	Cedula varChar(50) unique not null,
 	Id_administrador int NOT NULL,	
     Nombre varchar(50) not null,
@@ -82,7 +82,7 @@ CREATE TABLE Enfermera (
 );
 
 CREATE TABLE HistoriaClinica (
-	Id int PRIMARY KEY IDENTITY (1, 1),
+	Id int PRIMARY KEY,
     Id_paciente int NOT NULL,
     Id_medico int not null,
     Id_enfermera int not null,

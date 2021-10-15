@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dominio
 {
-    public class Paciente : Person
+    public class PacienteEntity : Person
     {
         public FamiliarDesigado Familiar { get; set; }
         public EnfermeraDesignada Enfermera { get; set; }

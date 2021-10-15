@@ -19,7 +19,7 @@ namespace Dominio
 
         [Required(ErrorMessage = "Nombre Requerido")]
         public string Nombre { get; set; }
-        
+       
         [Required(ErrorMessage = "Apellido Requerido")]
         public string Apellido { get; set; }
         

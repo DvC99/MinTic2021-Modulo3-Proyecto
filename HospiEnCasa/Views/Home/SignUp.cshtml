@@ -45,8 +45,8 @@
             <input type="text" asp-for="Edad" class="form-control" placeholder="Edad" />
         </div>
         <div class="form-group">
-            <label for="inputGenero" class="sr-only">Genero</label>
-            @Html.DropDownList("Genero", (IEnumerable<SelectListItem>)ViewBag.ListCompanyDocumentType, htmlAttributes: new { @class = "form-control", @type = "text", @id = "inputCargo" })
+            <label asp-for="Genero" class="sr-only">Genero</label>
+            @Html.DropDownList("Genero", (IEnumerable<SelectListItem>)ViewBag.ListCompanyDocumentType, htmlAttributes: new { @class = "form-control", @type = "text"})
 
         </div>
         <div class="form-group">

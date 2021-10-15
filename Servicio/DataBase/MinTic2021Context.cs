@@ -41,8 +41,10 @@ namespace Persistencia.DataBase
             {
                 entity.ToTable("Administrador");
 
-                entity.HasIndex(e => e.Cedula, "UQ__Administ__B4ADFE38FCD558AC")
+                entity.HasIndex(e => e.Cedula, "UQ__Administ__B4ADFE38F4A1801B")
                     .IsUnique();
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Apellido)
                     .IsRequired()
@@ -136,8 +138,10 @@ namespace Persistencia.DataBase
             {
                 entity.ToTable("Enfermera");
 
-                entity.HasIndex(e => e.Cedula, "UQ__Enfermer__B4ADFE38E79BC2A1")
+                entity.HasIndex(e => e.Cedula, "UQ__Enfermer__B4ADFE384A47B81E")
                     .IsUnique();
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Apellido)
                     .IsRequired()
@@ -181,8 +185,10 @@ namespace Persistencia.DataBase
             {
                 entity.ToTable("Familiar");
 
-                entity.HasIndex(e => e.Cedula, "UQ__Familiar__B4ADFE38F36E0E99")
+                entity.HasIndex(e => e.Cedula, "UQ__Familiar__B4ADFE38A386272F")
                     .IsUnique();
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Apellido)
                     .IsRequired()
@@ -218,6 +224,8 @@ namespace Persistencia.DataBase
             modelBuilder.Entity<HistoriaClinica>(entity =>
             {
                 entity.ToTable("HistoriaClinica");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Comentarios)
                     .IsRequired()
@@ -284,8 +292,10 @@ namespace Persistencia.DataBase
             {
                 entity.ToTable("Medico");
 
-                entity.HasIndex(e => e.Cedula, "UQ__Medico__B4ADFE3848704E51")
+                entity.HasIndex(e => e.Cedula, "UQ__Medico__B4ADFE38FC4BD82C")
                     .IsUnique();
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Apellido)
                     .IsRequired()
@@ -329,8 +339,10 @@ namespace Persistencia.DataBase
             {
                 entity.ToTable("Paciente");
 
-                entity.HasIndex(e => e.Cedula, "UQ__Paciente__B4ADFE384BA98360")
+                entity.HasIndex(e => e.Cedula, "UQ__Paciente__B4ADFE38EC3F4F9D")
                     .IsUnique();
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Apellido)
                     .IsRequired()
