@@ -61,7 +61,7 @@ namespace HospiEnCasa.Controllers
         [HttpPost]
         public IActionResult Signup(AdiministradorEntity admi)
         {
-            List<SelectListItem> listGenero = new List<SelectListItem>();
+            List<SelectListItem> listGenero = new();
             foreach(int item in Genero.GetValues(typeof(Genero)))
             {
                 listGenero.Add(new SelectListItem { Value = ((int)item).ToString() , Text = Genero.ToObject(typeof(Genero), (int)item).ToString() });
@@ -104,21 +104,34 @@ namespace HospiEnCasa.Controllers
             return View();
         }
 
-        public IActionResult Paciente(PacienteEntity pac)
+        public IActionResult Paciente()
         {
             if (VerifySession() == null)
             {
                 return RedirectToAction("Login", "Home", routeValues: new { loginError = "El usuario no existe" });
             }
-            
+
+            return View(hospiLogic.GetPacienteEntity());
+        }
+
+        public IActionResult Paciente_crear(PacienteEntity pac)
+        {
+
+            List<SelectListItem> listGenero = new();
+            foreach (int item in Genero.GetValues(typeof(Genero)))
+            {
+                listGenero.Add(new SelectListItem { Value = ((int)item).ToString(), Text = Genero.ToObject(typeof(Genero), (int)item).ToString() });
+            }
+            ViewBag.listGenero = listGenero;
+
             var listaFamiliarDb = hospiLogic.ListFamiliarDB();
-            List<SelectListItem> listFamiliares = new List<SelectListItem>();
+            List<SelectListItem> listFamiliares = new();
             foreach (var item in listaFamiliarDb)
             {
                 listFamiliares.Add(new SelectListItem { Value = ((int)item.Id).ToString(), Text = item.Cedula.ToString() });
             }
-            
-            
+            ViewBag.listFamiliares = listFamiliares;
+
             if (pac.Cedula != null)
             {
                 int idAdmi = hospiLogic.IdAdmi(VerifySession());
@@ -131,23 +144,33 @@ namespace HospiEnCasa.Controllers
                     return View("Home");
                 }
             }
+
             return View();
         }
         
-        public IActionResult Medico(DoctorDesignado doc)
+        public IActionResult Medico()
+        {
+            if (VerifySession() == null)
+            {
+                return RedirectToAction("Login", "Home", routeValues: new { loginError = "El usuario no existe" });
+            }
+            
+            return View(hospiLogic.GetDoctorDesignadas());
+        }
+
+        public IActionResult Medico_crear(DoctorDesignado doc)
         {
             if (VerifySession() == null)
             {
                 return RedirectToAction("Login", "Home", routeValues: new { loginError = "El usuario no existe" });
             }
 
-            List<SelectListItem> listGenero = new List<SelectListItem>();
+            List<SelectListItem> listGenero = new();
             foreach (int item in Genero.GetValues(typeof(Genero)))
             {
                 listGenero.Add(new SelectListItem { Value = ((int)item).ToString(), Text = Genero.ToObject(typeof(Genero), (int)item).ToString() });
             }
             ViewBag.ListCompanyDocumentType = listGenero;
-
 
             if (doc.Cedula != null)
             {
@@ -159,10 +182,11 @@ namespace HospiEnCasa.Controllers
                     ViewBag.Type = Enum.ToObject(typeof(TypeMessage), (int)responseBase.Type).ToString();
                     if (responseBase.Type.ToString().Equals("success"))
                     {
-                        return View("Home");
+                        return View("Medico", hospiLogic.GetDoctorDesignadas());
                     }
-                }                 
+                }
             }
+
             return View();
         }
 
@@ -171,6 +195,38 @@ namespace HospiEnCasa.Controllers
             if (VerifySession() == null)
             {
                 return RedirectToAction("Login", "Home", routeValues: new { loginError = "El usuario no existe" });
+            }
+
+            return View(hospiLogic.GetEnfermeraDesignadas());
+        }
+
+        public IActionResult Enfermera_crear(EnfermeraDesignada enfe)
+        {
+            if (VerifySession() == null)
+            {
+                return RedirectToAction("Login", "Home", routeValues: new { loginError = "El usuario no existe" });
+            }
+
+            List<SelectListItem> listGenero = new();
+            foreach (int item in Genero.GetValues(typeof(Genero)))
+            {
+                listGenero.Add(new SelectListItem { Value = ((int)item).ToString(), Text = Genero.ToObject(typeof(Genero), (int)item).ToString() });
+            }
+            ViewBag.ListCompanyDocumentType = listGenero;
+
+            if (enfe.Cedula != null)
+            {
+                int idAdmi = hospiLogic.IdAdmi(VerifySession());
+                if (idAdmi != -1)
+                {
+                    var responseBase = hospiLogic.CrearEnfermera(enfe, idAdmi);
+                    ViewBag.Message = responseBase.Message;
+                    ViewBag.Type = Enum.ToObject(typeof(TypeMessage), (int)responseBase.Type).ToString();
+                    if (responseBase.Type.ToString().Equals("success"))
+                    {
+                        return View("Enfermera",hospiLogic.GetEnfermeraDesignadas());
+                    }
+                }
             }
             return View();
         }

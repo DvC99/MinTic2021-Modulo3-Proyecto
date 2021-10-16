@@ -23,7 +23,7 @@ namespace Persistencia.Logic
                 if (client != null)
                 {
                     return GetResponseBaseEntity("Ya existe un usuario con esa cedula", TypeMessage.danger);
-                }else if (dbcontex.Administradors.Where(x => x.Email == adm.Mail).FirstOrDefault() != null)
+                } else if (dbcontex.Administradors.Where(x => x.Email == adm.Mail).FirstOrDefault() != null)
                 {
                     return GetResponseBaseEntity("Ya existe un usuario con ese correo", TypeMessage.danger);
                 }
@@ -200,7 +200,7 @@ namespace Persistencia.Logic
         {
             Administrador administrador = new()
             {
-                Id =  adm.Id,
+                Id = adm.Id,
                 Nombre = adm.Nombre,
                 Apellido = adm.Apellido,
                 Cedula = adm.Cedula,
@@ -222,8 +222,8 @@ namespace Persistencia.Logic
                 IdAdministrador = idAdmi,
                 IdFamiliar = idFamiliar,
                 Nombre = pas.Nombre,
-                Apellido = pas.Apellido,                
-                Edad = pas.Edad,                
+                Apellido = pas.Apellido,
+                Edad = pas.Edad,
                 Genero = pas.Genero.ToString(),
                 Telefono = pas.NumeroTelefono
             };
@@ -233,23 +233,23 @@ namespace Persistencia.Logic
         private static Familiar ConvertirFamilirToFamiliarDb(FamiliarDesigado fami)
         {
             Familiar familiar = new() {
-                Id =  fami.Id,
+                Id = fami.Id,
                 Nombre = fami.Nombre,
                 Apellido = fami.Apellido,
                 Cedula = fami.Cedula,
                 Edad = fami.Edad,
                 Parentesco = fami.Parentesco,
                 Genero = fami.Genero.ToString(),
-                Telefono = fami.NumeroTelefono                
+                Telefono = fami.NumeroTelefono
             };
             return familiar;
         }
-        
+
         private static Medico ConvertirMedicoToMedicoDb(DoctorDesignado doc, int idAdmi)
         {
             Medico medico = new()
             {
-                Id =  doc.Id,
+                Id = doc.Id,
                 Nombre = doc.Nombre,
                 Apellido = doc.Apellido,
                 Cedula = doc.Cedula,
@@ -266,7 +266,7 @@ namespace Persistencia.Logic
         {
             Enfermera enfermera = new()
             {
-                Id =  enf.Id,
+                Id = enf.Id,
                 Nombre = enf.Nombre,
                 Apellido = enf.Apellido,
                 Cedula = enf.Cedula,
@@ -279,6 +279,12 @@ namespace Persistencia.Logic
             return enfermera;
         }
 
+        public FamiliarDesigado GetFamiliarDesigadoID(int idFamiliar)
+        {
+            var familiar = dbcontex.Familiars.Where(x => x.Id == idFamiliar).FirstOrDefault();
+            return ConvertirFamiliarToEnFamiliarDesigado(familiar);
+        }
+
         public int IdAdmi(String correo)
         {
             var Admi = dbcontex.Administradors.Where(x => x.Email == correo).FirstOrDefault();
@@ -289,9 +295,144 @@ namespace Persistencia.Logic
             return Admi.Id;
         }
 
-        public List<Familiar> ListFamiliarDB()
+        public List<FamiliarDesigado> ListFamiliarDB()
         {
-            return dbcontex.Familiars.ToList();
+            List<FamiliarDesigado> familiar = new();
+            var listadb = dbcontex.Familiars.ToList();
+            foreach (var fami in listadb)
+            {
+                familiar.Add(ConvertirFamiliarToEnFamiliarDesigado(fami));
+            }
+            return familiar;
+        }
+
+        public List<PacienteEntity> GetPacienteEntity()
+        {
+            List<PacienteEntity> paciente = new();
+            var listadb = dbcontex.Pacientes.ToList();
+            foreach (var paci in listadb)
+            {
+                paciente.Add(ConvertirPacienteToEnPacienteEntity(paci));
+            }
+            return paciente;
+        }
+
+        public List<EnfermeraDesignada> GetEnfermeraDesignadas()
+        {
+            List<EnfermeraDesignada> enfermeras = new();
+            var listadb = dbcontex.Enfermeras.ToList();
+            foreach (var enfe in listadb)
+            {
+                enfermeras.Add(ConvertirEnfermeraToEnfermeraDesignada(enfe));
+            }
+            return enfermeras;
+        }
+
+        public List<DoctorDesignado> GetDoctorDesignadas()
+        {
+            List<DoctorDesignado> doctor = new();
+            var listadb = dbcontex.Medicos.ToList();
+            foreach (var medic in listadb)
+            {
+                doctor.Add(ConvertirDoctorToEnDoctorDesignada(medic));
+            }
+            return doctor;
+        }
+
+        private static PacienteEntity ConvertirPacienteToEnPacienteEntity(Paciente paciente)
+        {
+            Genero genero;
+            if (Genero.Femenino.ToString().Equals(paciente.Genero))
+            {
+                genero = Genero.Femenino;
+            }
+            else
+            {
+                genero = Genero.Masculino;
+            }
+            PacienteEntity pac = new()
+            {
+                Id = paciente.Id,
+                Nombre = paciente.Nombre,
+                Apellido = paciente.Apellido,
+                Cedula = paciente.Cedula,
+                Edad = paciente.Edad,
+                Genero = genero,
+                IdFamiliar =paciente.IdFamiliar,
+                NumeroTelefono = paciente.Telefono
+            };
+            return pac;
+        }
+
+        private static FamiliarDesigado ConvertirFamiliarToEnFamiliarDesigado(Familiar familiar)
+        {
+            Genero genero;
+            if (Genero.Femenino.ToString().Equals(familiar.Genero))
+            {
+                genero = Genero.Femenino;
+            }
+            else
+            {
+                genero = Genero.Masculino;
+            }
+
+            FamiliarDesigado fami = new() { 
+                Id = familiar.Id,
+                Nombre = familiar.Nombre,
+                Apellido = familiar.Apellido,
+                Cedula = familiar.Cedula,
+                Edad = familiar.Edad,
+                Genero = genero,
+                NumeroTelefono = familiar.Telefono,
+                Parentesco =familiar.Parentesco
+            };
+            return fami;
+        }
+
+        private static DoctorDesignado ConvertirDoctorToEnDoctorDesignada(Medico medico)
+        {
+            Genero genero;
+            if (Genero.Femenino.ToString().Equals(medico.Genero))
+            {
+                genero = Genero.Femenino;
+            } else {
+                genero = Genero.Masculino;
+            }
+            DoctorDesignado doc = new()
+            {
+                Id = medico.Id,
+                Nombre = medico.Nombre,
+                Apellido = medico.Apellido,
+                Cedula = medico.Cedula,
+                Edad = medico.Edad,
+                Genero = genero,
+                Especialidad = medico.Especialidad,
+                NumeroTelefono = medico.Telefono
+            };
+            return doc;
+        }
+
+        private static EnfermeraDesignada ConvertirEnfermeraToEnfermeraDesignada(Enfermera enfermera)
+        {
+            Genero genero;
+            if (Genero.Femenino.ToString().Equals(enfermera.Genero)) 
+            {
+                genero = Genero.Femenino;
+            } else {
+                genero = Genero.Masculino;
+            }
+            EnfermeraDesignada enfe = new()
+            {
+                Id = enfermera.Id,
+                Nombre = enfermera.Nombre,
+                Apellido = enfermera.Apellido,
+                Cedula = enfermera.Cedula,
+                Edad = enfermera.Edad,
+                Genero = genero,
+                Especialidad = enfermera.Especialidad,
+                NumeroTelefono = enfermera.Telefono
+            };
+            return enfe;
         }
 
         public bool VefirySession(Login loginEntity)

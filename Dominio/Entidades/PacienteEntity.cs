@@ -8,6 +8,7 @@ namespace Dominio
 {
     public class PacienteEntity : Person
     {
+        public int IdFamiliar { get; set; }
         public FamiliarDesigado Familiar { get; set; }
         public EnfermeraDesignada Enfermera { get; set; }
         public DoctorDesignado Doctor { get; set; }

@@ -1,5 +1,6 @@
-﻿@{
-    ViewData["Title"] = "Modificacion de las Enfermera";
+﻿@model IEnumerable<Dominio.EnfermeraDesignada>
+@{
+    ViewData["Title"] = "Listado de enfermeras";
 }
 
 <header class="pb-5">
@@ -43,13 +44,106 @@
             </ul>
         </div>
     </nav>
-
-    <h1>@ViewData["Title"]</h1>
 </header>
 
 
 <main>
+    <div class="table-responsive-lg p-5 pt-3">
+        <div class="align-items-start pb-2">
+            <h3 class="pb-1">Acontinuacion se muestra en la tabla todas las enfermestas registradas en el sistema</h3>
+            <a class="btn btn-secondary" asp-controller="Home" asp-action="Enfermera_crear">Create Enfermera</a>
+        </div>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Id)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Apellido)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Especialidad)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Cedula)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.NumeroTelefono)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Edad)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Genero)
+                    </th>
 
+                    @*<th scope="col">
+                        @Html.DisplayNameFor(model => model.Password)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Mail)
+                    </th>*@
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td scope="row">
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Apellido)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Especialidad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cedula)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumeroTelefono)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Edad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Genero)
+                        </td>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.Password)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mail)
+                        </td>*@
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-light btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Opciones
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="Enfermera_crear">Edit</a>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="Enfermera_crear">Delete</a>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="Enfermera_crear">Details</a>
+                                </div>
+                            </div>
+                            @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </main>
 
 
