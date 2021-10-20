@@ -52,7 +52,7 @@ namespace Persistencia.Logic
             }
         }
 
-        public ResponseBaseEntity CrearPaciente(PacienteEntity pas, int idAdmi, int idFamiliar)
+        public ResponseBaseEntity CrearPaciente(PacienteEntity pas, int idAdmi)
         {
             using var dbContextTransaction = dbcontex.Database.BeginTransaction();
             try
@@ -73,11 +73,43 @@ namespace Persistencia.Logic
                 }
                 pas.Id = random;
 
-                dbcontex.Pacientes.Add(ConvertPaceinteToPacienteDb(pas, idAdmi, idFamiliar));
+                dbcontex.Pacientes.Add(ConvertPaceinteToPacienteDb(pas, idAdmi));
                 dbcontex.SaveChanges();
                 dbContextTransaction.Commit();
 
                 return GetResponseBaseEntity("Paciente creado con exito! ", TypeMessage.success);
+            }
+            catch (Exception e)
+            {
+                dbContextTransaction.Rollback();
+                return GetResponseBaseEntity(e.ToString(), TypeMessage.danger);
+            }
+        }
+
+        public ResponseBaseEntity EditPaciente(PacienteEntity pas, int idAdmi)
+        {
+            using var dbContextTransaction = dbcontex.Database.BeginTransaction();
+            try
+            {
+                var client = dbcontex.Pacientes.Where(x => x.Id == pas.Id).FirstOrDefault();
+                if (client == null)
+                {
+                    return GetResponseBaseEntity("No existe este Paciente con esa cedula", TypeMessage.danger);
+                }
+                client.Id = pas.Id;
+                client.Genero = pas.Genero.ToString();
+                client.Nombre = pas.Nombre;
+                client.Apellido = pas.Apellido;
+                client.Cedula = pas.Cedula;
+                client.Edad = pas.Edad;
+                client.IdAdministrador = idAdmi;
+                client.Telefono = pas.NumeroTelefono;
+                
+                dbcontex.Pacientes.Update(client);
+                dbcontex.SaveChanges();
+                dbContextTransaction.Commit();
+
+                return GetResponseBaseEntity("Paciente actualizado con exito! ", TypeMessage.success);
             }
             catch (Exception e)
             {
@@ -214,7 +246,7 @@ namespace Persistencia.Logic
             return administrador;
         }
 
-        private static Paciente ConvertPaceinteToPacienteDb(PacienteEntity pas, int idAdmi, int idFamiliar)
+        private static Paciente ConvertPaceinteToPacienteDb(PacienteEntity pas, int idAdmi)
         {
             Paciente paciente = new() {
                 Id = pas.Id,
@@ -284,6 +316,18 @@ namespace Persistencia.Logic
             var familiar = dbcontex.Familiars.Where(x => x.Id == idFamiliar).FirstOrDefault();
             return ConvertirFamiliarToEnFamiliarDesigado(familiar);
         }
+        
+        public DoctorDesignado GetDoctorForID(int idDoctor)
+        {
+            var doctor = dbcontex.Medicos.Where(x => x.Id == idDoctor).FirstOrDefault();
+            return ConvertirDoctorToEnDoctorDesignada(doctor);
+        }
+
+        public PacienteEntity GetPacienteForID(int idPaciente)
+        {
+            var paciente = dbcontex.Pacientes.Where(x => x.Id == idPaciente).FirstOrDefault();
+            return ConvertirPacienteToEnPacienteEntity(paciente);
+        }
 
         public int IdAdmi(String correo)
         {
@@ -339,7 +383,7 @@ namespace Persistencia.Logic
             return doctor;
         }
 
-        private static PacienteEntity ConvertirPacienteToEnPacienteEntity(Paciente paciente)
+        private  PacienteEntity ConvertirPacienteToEnPacienteEntity(Paciente paciente)
         {
             Genero genero;
             if (Genero.Femenino.ToString().Equals(paciente.Genero))
@@ -358,7 +402,7 @@ namespace Persistencia.Logic
                 Cedula = paciente.Cedula,
                 Edad = paciente.Edad,
                 Genero = genero,
-                IdFamiliar =paciente.IdFamiliar,
+                Familiar = GetFamiliarDesigadoID(paciente.IdFamiliar),
                 NumeroTelefono = paciente.Telefono
             };
             return pac;

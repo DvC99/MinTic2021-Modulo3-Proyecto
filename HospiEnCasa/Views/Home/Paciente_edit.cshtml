@@ -1,8 +1,8 @@
-﻿@model IEnumerable<Dominio.PacienteEntity>
-@{
-    ViewData["Title"] = "Modificacion de los Pacientes";
-}
+﻿@model Dominio.PacienteEntity;
 
+@{
+    ViewData["Title"] = "Paciente_edit";
+}
 
 <header class="pb-5">
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom rounded-bottom justify-content-between">
@@ -48,102 +48,82 @@
 </header>
 
 
-<main>
-    <div class="table-responsive-lg p-5 pt-3">
-        <div class="align-items-start pb-2">
-            <h3 class="pb-1">Acontinuacion se muestra en la tabla con todos los pacientes registradas en el sistema</h3>
-            <a class="btn btn-secondary" asp-controller="Home" asp-action="Paciente_crear">Create Paciente</a>
+<main class="row pb-3">
+    <form asp-controller="Home" asp-action="Paciente_edit" class="form-signin align-items-center">
+        @if (!string.IsNullOrEmpty(ViewBag.Message))
+        {
+            <div class="alert alert-@ViewBag.Type" align="center">
+                <strong>@ViewBag.Message</strong>
+            </div>
+        }
+        <h3 class="h3 mb-3 font-weight-normal">Datos personales del paciente</h3>
+
+        <!-- Button trigger modal -->
+        <div class="form-group">
+            <button class="btn btn-light btn-outline-secondary btn-lg btn-block pb-2" type="button" data-toggle="modal" data-target="#FamiliaAddEdit">
+                Agregar Familiar
+            </button>
         </div>
-        <table class="table table-sm">
-            <thead>
-                <tr>
-                    @*<th scope="col">
-                        @Html.DisplayNameFor(model => model.Id)
-                    </th>*@
-                    <th scope="col">
-                        @Html.DisplayNameFor(model => model.Nombre)
-                    </th>
-                    <th scope="col">
-                        @Html.DisplayNameFor(model => model.Apellido)
-                    </th>
-                    <th scope="col">
-                        @Html.DisplayNameFor(model => model.Genero)
-                    </th>
-                    <th scope="col">
-                        @Html.DisplayNameFor(model => model.Cedula)
-                    </th>
-                    <th scope="col">
-                        @Html.DisplayNameFor(model => model.NumeroTelefono)
-                    </th>
-                    <th scope="col">
-                        @Html.DisplayNameFor(model => model.Edad)
-                    </th>
-                    <th scope="col">                       
-                        @Html.DisplayNameFor(model => model.Familiar)
-                    </th>
 
-                    @*<th scope="col">
-                        @Html.DisplayNameFor(model => model.Password)
-                    </th>
-                    <th scope="col">
-                        @Html.DisplayNameFor(model => model.Mail)
-                    </th>*@
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        @*<td scope="row">
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>*@
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Nombre)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Apellido)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Genero)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Cedula)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NumeroTelefono)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Edad)
-                        </td>
-                        <td>                            
-                            @Html.DisplayFor(modelItem => item.Familiar.Cedula)
-                        </td>
-                        @*<td>
-                            @Html.DisplayFor(modelItem => item.Password)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Mail)
-                        </td>*@
-                        <td>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-light btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Opciones
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" asp-controller="Home" asp-action="Paciente_edit" asp-route-id="@item.Id">Edit</a>
-                                    <a class="dropdown-item" asp-controller="Home" asp-action="Paciente_crear" asp-route-id="@item.Id">Delete</a>
-                                    <a class="dropdown-item" asp-controller="Home" asp-action="Paciente_crear" asp-route-id="@item.Id">Details</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                 }
-            </tbody>
-        </table>
+        <input type="hidden" asp-for="Id" class="form-control" placeholder="id" />
+
+        <div class="form-group">
+            <label asp-for="Nombre" class="control-label sr-only">Nombre completo</label>
+            <input type="text" asp-for="Nombre" class="form-control" placeholder="Nombres" autofocus="" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Apellido" class="control-label sr-only">Apellidos</label>
+            <input type="text" asp-for="Apellido" class="form-control" placeholder="Apellidos" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Cedula" class="sr-only">Cedula</label>
+            <input type="text" asp-for="Cedula" class="form-control" placeholder="Cedula" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NumeroTelefono" class="sr-only">Telefono</label>
+            <input type="text" asp-for="NumeroTelefono" class="form-control" placeholder="Telefono" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Edad" class="sr-only">Edad</label>
+            <input type="text" asp-for="Edad" class="form-control" placeholder="Edad" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Genero" class="sr-only">Genero</label>
+            @Html.DropDownList("Genero", (IEnumerable<SelectListItem>)ViewBag.listGenero, htmlAttributes: new { @class = "form-control", @type = "text" })
+        </div>
+        <div class="form-group">
+            <label asp-for="IdFamiliar" class="sr-only">Especialidad</label>
+            @Html.DropDownList("IdFamiliar", (IEnumerable<SelectListItem>)ViewBag.listFamiliares, htmlAttributes: new { @class = "form-control", @type = "text" })
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-secondary btn-lg btn-block" type="submit" value="" asp-controller="Home" asp-action="Paciente">Volver</button>
+            <button class="btn btn-light btn-outline-secondary btn-lg btn-block" type="submit" value="" asp-controller="Home" asp-action="Paciente_edit">Editar Paciente</button>
+        </div>
+    </form>
+    <!-- Modal -->
+    <div id="FamiliaAddEdit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h3 mb-3" id="exampleModalLabel">Datos del familiar del paciente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @Html.PartialAsync("Familiar.cshtml")
+                </div>
+            </div>
+        </div>
     </div>
-</main>
 
+</main>
 
 <footer class="py-8 py-md-11 bg-white footer">
     <div class="container">
