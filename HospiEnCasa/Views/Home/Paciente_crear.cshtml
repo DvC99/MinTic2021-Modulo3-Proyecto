@@ -48,7 +48,7 @@
 </header>
 
 
-<main>
+<main class="row pb-3">
     <form asp-controller="Home" asp-action="Paciente_crear" class="form-signin align-items-center">
         @if (!string.IsNullOrEmpty(ViewBag.Message))
         {
@@ -56,7 +56,15 @@
                 <strong>@ViewBag.Message</strong>
             </div>
         }
-        <h1 class="h3 mb-3 font-weight-normal">Por favor, ingresar los datos</h1>
+        <h3 class="h3 mb-3 font-weight-normal">Datos personales del paciente</h3>
+
+        <!-- Button trigger modal -->
+        <div class="form-group">
+            <button class="btn btn-light btn-outline-secondary btn-lg btn-block pb-2" type="button" data-toggle="modal" data-target="#FamiliaAdd">
+                Agregar Familiar
+            </button>
+        </div>
+
         <div class="form-group">
             <label asp-for="Nombre" class="control-label sr-only">Nombre completo</label>
             <input type="text" asp-for="Nombre" class="form-control" placeholder="Nombres" autofocus="" />
@@ -71,36 +79,48 @@
             <label asp-for="Cedula" class="sr-only">Cedula</label>
             <input type="text" asp-for="Cedula" class="form-control" placeholder="Cedula" />
         </div>
+
         <div class="form-group">
             <label asp-for="NumeroTelefono" class="sr-only">Telefono</label>
             <input type="text" asp-for="NumeroTelefono" class="form-control" placeholder="Telefono" />
         </div>
-        @*<div class="form-group">
-                <label asp-for="Mail" class="sr-only">Email address</label>
-                <input type="email" asp-for="Mail" class="form-control" placeholder="Correo" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="sr-only">Password</label>
-                <input type="password" asp-for="Password" class="form-control" placeholder="Contraseña" />
-            </div>*@
+
         <div class="form-group">
             <label asp-for="Edad" class="sr-only">Edad</label>
             <input type="text" asp-for="Edad" class="form-control" placeholder="Edad" />
         </div>
+
         <div class="form-group">
             <label asp-for="Genero" class="sr-only">Genero</label>
             @Html.DropDownList("Genero", (IEnumerable<SelectListItem>)ViewBag.listGenero, htmlAttributes: new { @class = "form-control", @type = "text" })
-
         </div>
         <div class="form-group">
             <label asp-for="IdFamiliar" class="sr-only">Especialidad</label>
-            @Html.DropDownList("Familiar", (IEnumerable<SelectListItem>)ViewBag.listFamiliares, htmlAttributes: new { @class = "form-control", @type = "text" })
+            @Html.DropDownList("IdFamiliar", (IEnumerable<SelectListItem>)ViewBag.listFamiliares, htmlAttributes: new { @class = "form-control", @type = "text" })
         </div>
+
         <div class="form-group">
             <button class="btn btn-secondary btn-lg btn-block" type="submit" value="" asp-controller="Home" asp-action="Paciente">Volver</button>
             <button class="btn btn-light btn-outline-secondary btn-lg btn-block" type="submit" value="" asp-controller="Home" asp-action="Paciente_crear">Crear Paciente</button>
         </div>
     </form>
+    <!-- Modal -->
+    <div id="FamiliaAdd" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h3 mb-3" id="exampleModalLabel">Datos del familiar del paciente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @await Html.PartialAsync("Familiar.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+
 </main>
 
 

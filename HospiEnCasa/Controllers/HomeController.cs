@@ -19,6 +19,7 @@ namespace HospiEnCasa.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly HospiEnCasaLogic hospiLogic = new HospiEnCasaLogic();
+        private int lastFamiliar = 0;
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -104,6 +105,36 @@ namespace HospiEnCasa.Controllers
             return View();
         }
 
+        public IActionResult Familiar(FamiliarDesigado fami)
+        {
+            if (VerifySession() == null)
+            {
+                return RedirectToAction("Login", "Home", routeValues: new { loginError = "El usuario no existe" });
+            }
+
+            List<SelectListItem> listGenero = new();
+            foreach (int item in Genero.GetValues(typeof(Genero)))
+            {
+                listGenero.Add(new SelectListItem { Value = ((int)item).ToString(), Text = Genero.ToObject(typeof(Genero), (int)item).ToString() });
+            }
+            ViewBag.listGenero = listGenero;
+
+            if (fami.Cedula != null)
+            {
+                //int idAdmi = hospiLogic.IdAdmi(VerifySession());
+                lastFamiliar = fami.Id;
+                var responseBase = hospiLogic.CrearFamiliar(fami);
+
+                ViewBag.Message = responseBase.Message;
+                ViewBag.Type = Enum.ToObject(typeof(TypeMessage), (int)responseBase.Type).ToString();
+                if (responseBase.Type.ToString().Equals("success"))
+                {
+                    return View("Paciente_crear");
+                }
+            }
+            return View("Paciente", hospiLogic.GetPacienteEntity());
+        }
+
         public IActionResult Paciente()
         {
             if (VerifySession() == null)
@@ -116,6 +147,10 @@ namespace HospiEnCasa.Controllers
 
         public IActionResult Paciente_crear(PacienteEntity pac)
         {
+            if (VerifySession() == null)
+            {
+                return RedirectToAction("Login", "Home", routeValues: new { loginError = "El usuario no existe" });
+            }
 
             List<SelectListItem> listGenero = new();
             foreach (int item in Genero.GetValues(typeof(Genero)))
@@ -135,16 +170,15 @@ namespace HospiEnCasa.Controllers
             if (pac.Cedula != null)
             {
                 int idAdmi = hospiLogic.IdAdmi(VerifySession());
-                var responseBase = hospiLogic.CrearPaciente(pac, idAdmi, pac.Familiar.Id);
+                var responseBase = hospiLogic.CrearPaciente(pac, idAdmi, lastFamiliar);
 
                 ViewBag.Message = responseBase.Message;
                 ViewBag.Type = Enum.ToObject(typeof(TypeMessage), (int)responseBase.Type).ToString();
                 if (responseBase.Type.ToString().Equals("success"))
                 {
-                    return View("Home");
+                    return View("Paciente", hospiLogic.GetPacienteEntity());
                 }
             }
-
             return View();
         }
         
@@ -153,8 +187,7 @@ namespace HospiEnCasa.Controllers
             if (VerifySession() == null)
             {
                 return RedirectToAction("Login", "Home", routeValues: new { loginError = "El usuario no existe" });
-            }
-            
+            }            
             return View(hospiLogic.GetDoctorDesignadas());
         }
 

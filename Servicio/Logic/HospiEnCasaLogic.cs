@@ -82,7 +82,7 @@ namespace Persistencia.Logic
             catch (Exception e)
             {
                 dbContextTransaction.Rollback();
-                return GetResponseBaseEntity(e.Message, TypeMessage.danger);
+                return GetResponseBaseEntity(e.ToString(), TypeMessage.danger);
             }
         }
 
@@ -220,7 +220,7 @@ namespace Persistencia.Logic
                 Id = pas.Id,
                 Cedula = pas.Cedula,
                 IdAdministrador = idAdmi,
-                IdFamiliar = idFamiliar,
+                IdFamiliar = pas.IdFamiliar,
                 Nombre = pas.Nombre,
                 Apellido = pas.Apellido,
                 Edad = pas.Edad,

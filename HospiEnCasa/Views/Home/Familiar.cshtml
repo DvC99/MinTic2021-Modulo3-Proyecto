@@ -1,0 +1,49 @@
+﻿@model Dominio.FamiliarDesigado;
+
+@{
+    ViewData["Title"] = "";
+}
+
+<form asp-controller="Home" asp-action="Familiar" class="form-signin align-items-center col-lg-3">
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <div class="alert alert-@ViewBag.Type" align="center">
+            <strong>@ViewBag.Message</strong>
+        </div>
+    }
+    <h1 class=""></h1>
+    <div class="form-group">
+        <label asp-for="Nombre" class="control-label sr-only">Nombre completo</label>
+        <input type="text" asp-for="Nombre" class="form-control" placeholder="Nombres" autofocus="" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Apellido" class="control-label sr-only">Apellidos</label>
+        <input type="text" asp-for="Apellido" class="form-control" placeholder="Apellidos" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Cedula" class="sr-only">Cedula</label>
+        <input type="text" asp-for="Cedula" class="form-control" placeholder="Cedula" />
+    </div>
+    <div class="form-group">
+        <label asp-for="NumeroTelefono" class="sr-only">Telefono</label>
+        <input type="text" asp-for="NumeroTelefono" class="form-control" placeholder="Telefono" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Edad" class="sr-only">Edad</label>
+        <input type="text" asp-for="Edad" class="form-control" placeholder="Edad" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Genero" class="sr-only">Genero</label>
+        @Html.DropDownList("Genero", (IEnumerable<SelectListItem>)ViewBag.listGenero, htmlAttributes: new { @class = "form-control", @type = "text" })
+    </div>
+    <div class="form-group">
+        <label asp-for="Parentesco" class="sr-only">Especialidad</label>
+        <input type="text" asp-for="Parentesco" class="form-control" placeholder="Parentesco" />
+    </div>
+    <div class="form-group">
+        <button class="btn btn-secondary btn-lg btn-block" type="submit" value="" asp-controller="Home" asp-action="Paciente_crear">Volver</button>
+        <button class="btn btn-light btn-outline-secondary btn-lg btn-block" type="submit" value="" asp-controller="Home" asp-action="Familiar">Crear Familiar</button>
+    </div>
+</form>

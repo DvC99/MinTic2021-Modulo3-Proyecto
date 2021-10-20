@@ -78,8 +78,7 @@
                     <th scope="col">
                         @Html.DisplayNameFor(model => model.Edad)
                     </th>
-                    <th scope="col">
-                       
+                    <th scope="col">                       
                         @Html.DisplayNameFor(model => model.Familiar)
                     </th>
 
@@ -118,7 +117,7 @@
                             @Html.DisplayFor(modelItem => item.Edad)
                         </td>
                         <td>                            
-                            @Html.DisplayFor(modelItem => item.Familiar.Nombre + item.Familiar.Apellido)
+                            @Html.DisplayFor(modelItem => item.Familiar.Cedula)
                         </td>
                         @*<td>
                                 @Html.DisplayFor(modelItem => item.Password)
